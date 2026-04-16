@@ -1,0 +1,28 @@
+#!name=JDTBXYSIGN
+#!desc=JD Sign, JDJR Goose & Pig, TB Coin, XY Checkin
+#!system=ios,mac
+#!openUrl=https://github.com/brazhao110/surge-scripts
+
+[Script]
+# Cookie Capture
+jd_cookie = type=http-request,pattern=^https?://api\.m\.jd\.com/client\.action\?functionId=signBeanIndex,requires-body=true,max-size=0,script-path=JD_Cookie.js,timeout=30
+
+jdjr_cookie = type=http-request,pattern=^https?://ms\.jr\.jd\.com/gw/generic/h5/m/,requires-body=true,max-size=0,script-path=JDJR_Cookie.js,timeout=30
+
+tb_cookie = type=http-request,pattern=^https?://h5api\.m\.taobao\.com/h5/.*mtop\.taobao\.idle\.fish\.common\.,requires-body=true,max-size=0,script-path=TB_Cookie.js,timeout=30
+
+xy_cookie = type=http-request,pattern=^https?://h5api\.m\.taobao\.com/h5/.*mtop\.user\.getusersimpleinfo,requires-body=true,max-size=0,script-path=XY_Cookie.js,timeout=30
+
+# Scheduled Tasks
+jd_sign = type=cron,cronexp="5 7 * * *",script-path=JD_Sign.js,timeout=30
+
+jd_goose = type=cron,cronexp="0 8 * * *",script-path=JD_Goose.js,timeout=30
+
+jd_pig = type=cron,cronexp="15 8 * * *",script-path=JD_Pig.js,timeout=30
+
+tb_coin = type=cron,cronexp="30 7 * * *",script-path=TB_Coin.js,timeout=30
+
+xy_checkin = type=cron,cronexp="30 8 * * *",script-path=XY_Checkin.js,timeout=30
+
+[MITM]
+hostname = %APPEND% api.m.jd.com, ms.jr.jd.com, h5api.m.taobao.com
