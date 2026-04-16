@@ -2,13 +2,13 @@
 #!desc=JD Sign + JDJR Goose Pig + TB Coin + XY Checkin
 
 [Script]
-jd_cookie = type=http-request,pattern=^https?://api\.m\.jd\.com/client\.action\?functionId=signBeanIndex,requires-body=true,max-size=0,script-path=https://raw.githubusercontent.com/brazhao110/surge-scripts/main/JD_Cookie.js,timeout=30
+jd_cookie = type=http-request,pattern=^https?://api\.m\.jd\.com/,requires-body=true,max-size=0,script-path=https://raw.githubusercontent.com/brazhao110/surge-scripts/main/JD_Cookie.js,timeout=30
 
-jdjr_cookie = type=http-request,pattern=^https?://ms\.jr\.jd\.com/gw/generic/h5/m/,requires-body=true,max-size=0,script-path=https://raw.githubusercontent.com/brazhao110/surge-scripts/main/JDJR_Cookie.js,timeout=30
+jdjr_cookie = type=http-request,pattern=^https?://ms\.jr\.jd\.com/,requires-body=true,max-size=0,script-path=https://raw.githubusercontent.com/brazhao110/surge-scripts/main/JDJR_Cookie.js,timeout=30
 
-tb_cookie = type=http-request,pattern=^https?://h5api\.m\.taobao\.com/h5/.*mtop\.taobao\.idle\.fish\.common\.,requires-body=true,max-size=0,script-path=https://raw.githubusercontent.com/brazhao110/surge-scripts/main/TB_Cookie.js,timeout=30
+tb_cookie = type=http-request,pattern=^https?://h5api\.m\.taobao\.com/,requires-body=true,max-size=0,script-path=https://raw.githubusercontent.com/brazhao110/surge-scripts/main/TB_Cookie.js,timeout=30
 
-xy_cookie = type=http-request,pattern=^https?://h5api\.m\.taobao\.com/h5/.*mtop\.user\.getusersimpleinfo,requires-body=true,max-size=0,script-path=https://raw.githubusercontent.com/brazhao110/surge-scripts/main/XY_Cookie.js,timeout=30
+xy_cookie = type=http-request,pattern=^https?://h5api\.m\.taobao\.com/,requires-body=true,max-size=0,script-path=https://raw.githubusercontent.com/brazhao110/surge-scripts/main/XY_Cookie.js,timeout=30
 
 jd_sign = type=cron,cronexp=5 7 * * *,script-path=https://raw.githubusercontent.com/brazhao110/surge-scripts/main/JD_Sign.js,timeout=30
 
