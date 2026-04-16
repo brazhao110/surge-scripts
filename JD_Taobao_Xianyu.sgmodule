@@ -1,7 +1,5 @@
 #!name=JDTBXYSIGN
-#!desc=JD Sign, JDJR Goose & Pig, TB Coin, XY Checkin
-#!system=ios,mac
-#!openUrl=https://github.com/brazhao110/surge-scripts
+#!desc=JD Sign + JDJR Goose Pig + TB Coin + XY Checkin
 
 [Script]
 jd_cookie = type=http-request,pattern=^https?://api\.m\.jd\.com/client\.action\?functionId=signBeanIndex,requires-body=true,max-size=0,script-path=https://raw.githubusercontent.com/brazhao110/surge-scripts/main/JD_Cookie.js,timeout=30
