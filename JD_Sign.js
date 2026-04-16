@@ -10,6 +10,8 @@ const cookieKey = "JD_COOKIE";
 
 async function main() {
     const cookie = $persistentStore.read(cookieKey);
+    console.log("读取到的Cookie: " + (cookie ? cookie.substring(0, 100) : "空"));
+    
     if (!cookie) {
         $notification.post("京东签到", "❌ Cookie 缺失", "请先打开京东APP获取Cookie");
         $done();
@@ -18,6 +20,7 @@ async function main() {
 
     // 检查 pt_key
     if (!cookie.includes("pt_key") || !cookie.includes("pt_pin")) {
+        console.log("Cookie 不完整，缺少 pt_key 或 pt_pin");
         $notification.post("京东签到", "⚠️ Cookie 不完整", "Cookie 需包含 pt_key 和 pt_pin，请重新获取");
         $done();
         return;
@@ -27,6 +30,8 @@ async function main() {
 
     // 签到
     const signResult = await doSign(cookie);
+    console.log("签到结果: " + JSON.stringify(signResult));
+    
     // 查询京豆余额
     const beanResult = await getBeanInfo(cookie);
 
@@ -52,14 +57,18 @@ function doSign(cookie) {
         };
         const body = "functionId=signBeanIndex&appid=ld";
 
+        console.log("请求URL: " + url);
+        console.log("请求Body: " + body);
+        console.log("请求Headers Cookie: " + cookie.substring(0, 50) + "...");
+
         $httpClient.post({ url, headers, body }, (error, response, data) => {
             if (error) {
                 console.log("签到请求失败: " + error);
                 resolve({ success: false, message: "网络错误: " + error });
                 return;
             }
+            console.log("签到返回数据: " + data);
             try {
-                console.log("签到原始返回: " + data);
                 const obj = JSON.parse(data);
                 if (obj.code === "0" || obj.success === true) {
                     const signInfo = obj.data?.signResult || obj.data || {};
@@ -71,7 +80,7 @@ function doSign(cookie) {
                     resolve({ success: true, message: "今日已签到" });
                 } else {
                     const errMsg = obj.errorMessage || obj.msg || JSON.stringify(obj);
-                    resolve({ success: false, message: errMsg });
+                    resolve({ success: false, message: "接口返回: " + errMsg });
                 }
             } catch (e) {
                 console.log("签到解析失败: " + e + " | 原始数据: " + data);
