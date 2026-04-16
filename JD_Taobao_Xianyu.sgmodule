@@ -1,0 +1,40 @@
+#!name=京东 & 淘宝 & 闲鱼 自动签到模块
+#!desc=京东签到 · 京东金融养大鹅(签到+喂食) · 京东养猪猪(签到+喂食) · 淘宝淘金币(签到+领金币) · 闲鱼(签到+得骰子)
+#!system=ios,mac
+#!openUrl=https://github.com/brazhao110/surge-scripts
+
+[Script]
+# ============ 京东 Cookie 获取 ============
+# 打开 https://bean.m.jd.com 登录后自动获取 Cookie
+jd_cookie = type=http-request,pattern=^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=signBeanIndex,requires-body=false,script-path=https://raw.githubusercontent.com/brazhao110/surge-scripts/main/JD_Cookie.js
+
+# ============ 京东金融 Cookie 获取 ============
+# 打开京东金融 APP → 养大鹅/养猪猪页面 自动获取 Cookie
+jdjr_cookie = type=http-request,pattern=^https?:\/\/ms\.jr\.jd\.com\/gw\/generic\/h5\/m\/,requires-body=false,script-path=https://raw.githubusercontent.com/brazhao110/surge-scripts/main/JDJR_Cookie.js
+
+# ============ 淘宝 Cookie 获取 ============
+# 打开淘宝 → 淘金币页面 自动获取 Cookie
+tb_cookie = type=http-request,pattern=^https?:\/\/h5api\.m\.taobao\.com\/h5\/.*mtop\.taobao\.idle\.fish\.common\.,requires-body=false,script-path=https://raw.githubusercontent.com/brazhao110/surge-scripts/main/TB_Cookie.js
+
+# ============ 闲鱼 Cookie 获取 ============
+# 打开闲鱼 APP → 我的页面 自动获取 Cookie
+xy_cookie = type=http-request,pattern=^https?:\/\/h5api\.m\.taobao\.com\/h5\/.*mtop\.user\.getusersimpleinfo,requires-body=false,script-path=https://raw.githubusercontent.com/brazhao110/surge-scripts/main/XY_Cookie.js
+
+# ============ 定时任务 ============
+# 京东每日签到 (每天 7:05)
+jd_sign = type=cron,cronexp="5 7 * * *",script-path=https://raw.githubusercontent.com/brazhao110/surge-scripts/main/JD_Sign.js,timeout=30
+
+# 京东金融养大鹅 签到+喂食 (每天 8:00)
+jd_goose = type=cron,cronexp="0 8 * * *",script-path=https://raw.githubusercontent.com/brazhao110/surge-scripts/main/JD_Goose.js,timeout=30
+
+# 京东养猪猪 签到+喂食 (每天 8:15)
+jd_pig = type=cron,cronexp="15 8 * * *",script-path=https://raw.githubusercontent.com/brazhao110/surge-scripts/main/JD_Pig.js,timeout=30
+
+# 淘宝淘金币 签到+领金币 (每天 7:30)
+tb_coin = type=cron,cronexp="30 7 * * *",script-path=https://raw.githubusercontent.com/brazhao110/surge-scripts/main/TB_Coin.js,timeout=30
+
+# 闲鱼 签到+得骰子 (每天 8:30)
+xy_checkin = type=cron,cronexp="30 8 * * *",script-path=https://raw.githubusercontent.com/brazhao110/surge-scripts/main/XY_Checkin.js,timeout=30
+
+[MITM]
+hostname = %APPEND% api.m.jd.com, ms.jr.jd.com, h5api.m.taobao.com
